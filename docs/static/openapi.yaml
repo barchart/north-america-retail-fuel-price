@@ -1,0 +1,759 @@
+openapi: 3.0.0
+
+info:
+  title: "cmdty North America Grain Price API"
+  description: "Access best-in-class intraday and historical cash grain prices for North America using Barchart's REST-ful web service"
+  version: 1.0.0
+
+servers:
+  - description: "Production"
+    url: "http://ondemand.websol.barchart.com/"
+
+
+
+paths:
+  /getGrainBids:
+    get:
+      tags:
+        - GrainBids
+      summary: Resturns a list of cashbids grouped by locations.
+      description: >
+                     The getGrainBids API provides cashbid data and reference data.
+                     Cashbid data can be requested for grain buying locations, for geographic coordinates and radius, for zip code and radius, and for a specified county.
+                     Cashbid data can be filtered by commodity standard name, by delivery window, by number of locations will be returned, and by maximum number of bids per commodity for each locations.
+                     Reference data contains grain buying locations and commodity standard names, providing valid values in use for requesting cash bid data.
+                      Reference data can be requested for geographic coordinates and radius. If no geographic coordinates are given, reference data will return all valid values by default.
+      parameters:
+        - in: query
+          name: apikey
+          description: The authorized API Key
+          schema:
+            type: string
+            example: "your_api_key"
+          required: true
+        - in: query
+          name: requestType
+          description: >
+            The type of request that is being requested in order to determine the type of data to be returned.
+            Valid Values: "bids", "commodities", "locations".
+            Default Value: "bids"
+          schema:
+            type: string
+            enum: [bids, commodities, locations]
+            example: bids
+            default: bids
+          required: false
+        - in: query
+          name: location
+          description: >
+            A location id or a code identifies a or multiple grain buying location(s) that cash bid will be returned for.
+            A valid code consist of multiple location ids separated by a comma, and the code can contain up to 100 locations.
+            A list of valid location ids can be retrieved by using this API with input: requestType = location.
+            location and several other inputs -geographic coordinates, zipCode, maxDistance, county, totalLocations- are mutually exclusive.
+          schema:
+            type: array
+            items:
+              type: integer
+          required: false
+        - in: query
+          name: latitude
+          description: >
+            The latitude of a valid geographic coordinates to define the center of area that cashbid will be returned for.
+            The `latitude` Must be used together with `longitude`.
+            Geographic coordinates and Zipcode are mutually exclusive.
+          schema:
+            type: number
+            example: 41.6945319
+          required: false
+        - in: query
+          name: longitude
+          description: >
+            The longitude of a valid geographic coordinates to define the center of area that cashbid will be returned for.
+            Geographic coordinates and Zipcode are mutually exclusive.
+          schema:
+            type: number
+            example: -94.3611938
+          required: false
+        - in: query
+          name: zipCode
+          description: >
+            A valid US or Canadian zip code to define the area that cash bids orginate from.
+            Default Value: 60606
+            `zipCode` and Geographic coordinates  are mutually exclusive.
+          schema:
+            type: integer
+            example: 60611
+          required: false
+        - in: query
+          name: maxDistance
+          description: >
+            The maximum distance from searched zipcode or the requested geo coordinates in miles. This input helps to
+            define the area that cash bids will be returned from.
+            Default value is 100.
+            Maximum value is 250.
+          schema:
+            type: integer
+            example: 100
+          required: false
+        - in: query
+          name: county
+          description: >
+            A valid string code which represents the concatenation of county name and state code seperated by a hyphen.
+          schema:
+            type: string
+            example: "BOONE COUNTY-IA"
+          required: false
+        - in: query
+          name: fipsCode
+          description: >
+            A concatenation of state FIPS code and county FIPS code without separator to define the county that cash bids will be returned for.
+            A list of possible values can be found at (here)[https://www.nass.usda.gov/Data_and_Statistics/County_Data_Files/Frequently_Asked_Questions/county_list.txt].
+          schema:
+            type: integer
+            example: 17053
+          required: false
+        - in: query
+          name: commodityName
+          description: >
+            A standard commodity name or a name list that separated by pipe "|" to filter cashbid. Note that the input need to be encoded in UTF-8.
+            A list of valid commodity names can be retrieved by using this API with input: requestType = commodities.
+          schema:
+            type: string
+            example: "Soybeans|Corn (#2 Yellow)"
+          required: false
+        - in: query
+          name: deliveryStart
+          description: >
+            The start date for the delivery period for qualified bids, formatted in YYYYMMDD.
+            If this parameter is given, only cash bids whose start delivery date not prior than given deliveryStart will be returned.
+          schema:
+            type: string
+            example: "20201101"
+          required: false
+        - in: query
+          name: deliveryEnd
+          description: >
+            The end date for the delivery period for qualified bids, formatted in YYYYMMDD.
+            If this parameter is given, only cash bids whose end delivery date no later than given deliveryEnd will be returned.
+          schema:
+            type: string
+            example: "20201231"
+          required: false
+        - in: query
+          name: totalLocations
+          description: >
+            The maximum number of locations to be returned based of the zip code provided by the user.
+            Default value is 30.
+          schema:
+            type: integer
+            example: 30
+          required: false
+        - in: query
+          name: getAllBids
+          description: >
+            Return all cash bids for each location.
+            Default Value: false
+          schema:
+            type: boolean
+            example: false
+          required: false
+        - in: query
+          name: bidsPerCom
+          description: >
+            The maximum number of cash bids to be returned for each commodity per location.
+            This parameter should be set to the maximum number of cash bids the user wishes to be returned.
+            Default Value: 2
+          schema:
+            type: integer
+            example: 2
+          required: false
+        - in: query
+          name: numOfDecimals
+          description: >
+            The level of precision in decimal places of price and basis to be returned.
+            Default Value: 2
+          schema:
+            type: integer
+            example: 2
+          required: false
+        - in: query
+          name: fields
+          description: >
+            Additional as per-requested fields that the user can define. Requested fields should be separated by a comma.
+            Valid Values: "county_code", "fips_code", "elevatorId", and "crop_district"
+          schema:
+            type: string
+            enum: [county_code, fips_code, elevatorId,crop_district]
+            example: county_code
+          required: false
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGrainBidsResponse'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      externalDocs:
+        description: Learn more about user operations provided by this API.
+        url: https://www.barchart.com/ondemand/api/getGrainBids
+
+  /getGrainInstruments:
+    get:
+      summary: Retrieve Alert.
+      description: Retrieves an existing alert.
+      security:
+        - JWT: []
+      parameters:
+        - name: alert_id
+          description: The UUID for the alert.
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "6bc32e9d-50ba-4f26-a633-a3cb3884b504"
+      responses:
+        '200':
+          description: "A JSON document, conforming to the alert schema, representing requested alert."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGrainBidsResponse'
+
+        '404':
+          description: "The alert does not exist."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "no data"
+
+  /getQuote:
+    get:
+      summary: "Retrieve Alerts For User."
+      description: "Retrieves all alerts for a single user."
+      security:
+        - JWT: []
+      parameters:
+        - name: user_id
+          required: true
+          in: path
+          description: "The unique identifier of the user (in the :alert_system)"
+          schema:
+            type: string
+
+        - name: alert_system
+          required: true
+          in: path
+          description: The name of the user's system (e.g. "barchart.com" or "grains.com")
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A JSON document, containing an array of alert objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetGrainBidsResponse'
+
+        '500':
+          description: A JSON document, containing an error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /getHistory:
+    get:
+      summary: "Retrieve Alerts By Remote System Key"
+      description: Retrieves all alerts, for a single user, which have a specific "alert_system_key" property value.
+      security:
+        - JWT: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: "The unique identifier of the user (in the :alert_system)"
+          schema:
+            type: string
+
+        - name: alert_system
+          in: path
+          required: true
+          description: The name of the user's system (e.g. "barchart.com" or "grains.com")
+          schema:
+            type: string
+
+        - name: alert_system_key
+          in: path
+          required: true
+          description: "The key (specified by the remote system at creation) to match"
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: "A JSON document, containing an array of alert objects."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetGrainBidsResponse'
+        '500':
+          description: A JSON document, containing an error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: The JWT authorization
+
+  schemas:
+
+
+    GetGrainBidsResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          description: A list of groups of grain bids that are grouped by locations.
+          items:
+            $ref: '#/components/schemas/GrainBidsByLocation'
+
+    GrainBidsByLocation:
+      type: object
+      properties:
+        bids:
+          type: array
+          description: A list of cash bids from a grain buying location. Each cash bid contains the meta and price data applicable to that location.
+          items:
+            $ref: '#/components/schemas/GrainBid'
+        distance:
+          type: string
+          description: Distance of the grain buying location in miles from the input zip code or lat/lng.
+          nullable: true
+          example: "13 miles away"
+        company:
+          description: Name of the applicable grain buying elevator.
+          type: string
+          example: "Heartland Coop"
+        locationId:
+          description: A internal unique identifier of grain buying location.
+          type: integer
+          example: 29443
+        location:
+          type: string
+          description: Name of grain buying location that grain bid originated from.
+          example: "Panora/Redfield"
+        facility_type:
+          type: string
+          description: The type of facility.
+          example: "Country Elevator"
+        address:
+          type: string
+          description: The street address of the location.
+          example: "310 E. Clay"
+        city:
+          type: string
+          description: City associated with the underlying grain bid.
+          example: "Panora, Redfield"
+        state:
+          type: string
+          description: 2-char abbreviation of the state that contains the applicable cash bid.
+          example: "IA"
+        lng:
+          type: integer
+          description: The longitude of the grain buying location.
+          example: -94.3611938
+        lat:
+          type: integer
+          description: The latitude of the grain buying location.
+          example: 41.6945319
+        phone:
+          type: string
+          description: The phone number for the grain buying location.
+          nullable: true
+          example: "641-755-2114"
+        url:
+          type: string
+          description: The public website of the grain buying elevator.
+          nullable: true
+          example: "www.heartlandcoop.com"
+        zip:
+          type: string
+          description: The zip code for the location.
+          example: "50216"
+        county:
+          type: string
+          description: The name of the county containing the applicable cash bid.
+          nullable: true
+          example: "Guthrie County"
+        basisTimestamp:
+          type: string
+          description: Datetime in central timezone when basis was last updated for the given elevator.
+          example: "2020-10-14T12:01:56-05:00"
+        basisTimestampRaw:
+          type: integer
+          description: Unix timestamp when basis was last updated for the given elevator.
+          example: 1602694916
+
+    GrainBid:
+      type: object
+      properties:
+        id:
+          type: string
+          description: the internal auto-increment numeric id for the cash bid.
+          example: "40204932"
+        commodity:
+          type: string
+          description: The commodity name displayed in grain buyers' end.
+          example: "Soybeans"
+        symbol:
+          type: string
+          description: Futures contract symbol of  cash bid's associated futures contract. If no symbol, return "".
+          nullable: true
+          example: "ZSX20"
+        delivery_start:
+          type: string
+          description: Delivery start date of cash bid.
+          example: "2020-10-01 00:00:00"
+        delivery_end:
+          type: string
+          description: Delivery end date of cash bid.
+          example: "2020-11-30 23:59:59"
+        basis:
+          type: string
+          description: The difference between the cash price grain buyer desire to pay for grain and the futures price of associated futures contract in cents per bushel.
+          example: "-62.00"
+        active:
+          type: boolean
+          description: The status of the cash bid.
+          example: true
+        notes:
+          type: string
+          description: Notes for cash bid from grain buyer. If not set, return null.
+          example: "Discount Schedule"
+        currency:
+          type: string
+          description: The currency of cash price.
+          example: "USD"
+        cashprice:
+          type: number
+          description: Cash price grain buyer desire to pay for grain in dollar per bushel.
+          example: "10.00"
+
+
+    getGrainInstrumentsResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: "Success."
+          format: uuid
+          example: "39b633bf-8993-491d-b544-bdc9deed60be"
+        alert_state:
+          type: string
+          example: "Inactive"
+        alert_system:
+          type: string
+          example: "barchart.com"
+        alert_state_key:
+          type: string
+          nullable: true
+          example: "abcdef"
+        alert_type:
+          type: string
+          nullable: true
+          example: "price"
+        alert_behavior:
+          type: string
+          example: "Terminate"
+        user_id:
+          type: string
+          example: "barchart-test-user"
+        name:
+          type: string
+          example: "Buy TSLA"
+        user_notes:
+          type: string
+          nullable: true
+          example: "Time to buy Tesla Motors stock"
+        system_notes:
+          type: object
+          example: {}
+        automatic_reset:
+          type: boolean
+          example: true
+        create_date:
+          type: string
+          example: "1453673000873"
+        last_trigger_date:
+          type: string
+          nullable: true
+          example: "145367399999"
+        last_start_date:
+          type: string
+          nullable: true
+          example: "145367399999"
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+        tracking_server_id:
+          type: integer # ???
+          nullable: true
+        schedules: # ???
+          type: array
+          items:
+            additionalProperties: {}
+            example: []
+        effectivePublishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+
+    getQuoteResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: "Success."
+          format: uuid
+          example: "39b633bf-8993-491d-b544-bdc9deed60be"
+        alert_state:
+          type: string
+          example: "Inactive"
+        alert_system:
+          type: string
+          example: "barchart.com"
+        alert_state_key:
+          type: string
+          nullable: true
+          example: "abcdef"
+        alert_type:
+          type: string
+          nullable: true
+          example: "price"
+        alert_behavior:
+          type: string
+          example: "Terminate"
+        user_id:
+          type: string
+          example: "barchart-test-user"
+        name:
+          type: string
+          example: "Buy TSLA"
+        user_notes:
+          type: string
+          nullable: true
+          example: "Time to buy Tesla Motors stock"
+        system_notes:
+          type: object
+          example: {}
+        automatic_reset:
+          type: boolean
+          example: true
+        create_date:
+          type: string
+          example: "1453673000873"
+        last_trigger_date:
+          type: string
+          nullable: true
+          example: "145367399999"
+        last_start_date:
+          type: string
+          nullable: true
+          example: "145367399999"
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+        tracking_server_id:
+          type: integer # ???
+          nullable: true
+        schedules: # ???
+          type: array
+          items:
+            additionalProperties: {}
+            example: []
+        effectivePublishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+
+    getHistoryResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: "Success."
+          format: uuid
+          example: "39b633bf-8993-491d-b544-bdc9deed60be"
+        alert_state:
+          type: string
+          example: "Inactive"
+        alert_system:
+          type: string
+          example: "barchart.com"
+        alert_state_key:
+          type: string
+          nullable: true
+          example: "abcdef"
+        alert_type:
+          type: string
+          nullable: true
+          example: "price"
+        alert_behavior:
+          type: string
+          example: "Terminate"
+        user_id:
+          type: string
+          example: "barchart-test-user"
+        name:
+          type: string
+          example: "Buy TSLA"
+        user_notes:
+          type: string
+          nullable: true
+          example: "Time to buy Tesla Motors stock"
+        system_notes:
+          type: object
+          example: {}
+        automatic_reset:
+          type: boolean
+          example: true
+        create_date:
+          type: string
+          example: "1453673000873"
+        last_trigger_date:
+          type: string
+          nullable: true
+          example: "145367399999"
+        last_start_date:
+          type: string
+          nullable: true
+          example: "145367399999"
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+        publishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+        tracking_server_id:
+          type: integer # ???
+          nullable: true
+        schedules: # ???
+          type: array
+          items:
+            additionalProperties: {}
+            example: []
+        effectivePublishers:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetGrainBidsResponse'
+
+
+  responses:
+    Success:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Success."
+              code:
+                type: integer
+                example: 200
+
+    Unauthorized:
+      description: The unauthorized access.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "API key is missing or not valid."
+
+    BadRequest:
+      description: The request was invalid, please see the message for more information.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "No active bids available for the requested location(s) at this time."
+              code:
+                type: integer
+                example: 204
+
+    ServerError:
+      description: Something is not working correctly, please contact support.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Something is not working correctly, please contact support."
+              code:
+                type: integer
+                example: 500
