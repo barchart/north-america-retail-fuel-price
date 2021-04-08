@@ -1,8 +1,8 @@
 # API Reference
 
-## cmdty North America Grain Price API 1.0.0 {docsify-ignore}
+## cmdty North America Retail Fuel Price API 1.0.0 {docsify-ignore}
     
-> Access best-in-class intraday and historical cash grain prices for North America using Barchart&#x27;s REST-ful web service
+> Access best-in-class EOD and historical retail fuel prices for North America using Barchart&#x27;s REST-ful web service
 
 ## OpenAPI Definition {docsify-ignore}
 
@@ -30,10 +30,9 @@
 
 ### Schemas 
 
-* [GetGrainBidsResponse](/content/api/components?id=schemasGetGrainBidsResponse)
-* [GrainBidsByLocation](/content/api/components?id=schemasGrainBidsByLocation)
-* [GrainBid](/content/api/components?id=schemasGrainBid)
-* [getGrainInstrumentsResponse](/content/api/components?id=schemasgetGrainInstrumentsResponse)
+* [GetFuelPricesResponse](/content/api/components?id=schemasGetFuelPricesResponse)
+* [FuelPricesByLocation](/content/api/components?id=schemasFuelPricesByLocation)
+* [FuelPrice](/content/api/components?id=schemasFuelPrice)
 * [getQuoteResponse](/content/api/components?id=schemasgetQuoteResponse)
 * [getHistoryResponse](/content/api/components?id=schemasgetHistoryResponse)
 
@@ -43,7 +42,6 @@
 
 ## Paths {docsify-ignore}
 
-* [GET /getGrainBids](/content/api/paths?id=get-getGrainBids)
-* [GET /getGrainInstruments](/content/api/paths?id=get-getGrainInstruments)
+* [GET /getFuelPrices](/content/api/paths?id=get-getFuelPrices)
 * [GET /getQuote](/content/api/paths?id=get-getQuote)
 * [GET /getHistory](/content/api/paths?id=get-getHistory)

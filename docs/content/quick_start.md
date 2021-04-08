@@ -1,13 +1,21 @@
-## 01 Get an API key
+# Quick Start Guide
 
-Head over to the [cmdty website](https://www.barchart.com/cmdty/data/grain-prices) and fill out the 'Get Started' form. The Barchart team will quickly set up your very own API key. 
+## Get an API key
+
+If you'd like to use our service, please [visit our website](https://www.barchart.com/cmdty/data/retail-fuel-prices) and fill out the 'Get Started' form.  You can also send us an email at cmdty@barchart.com.  It's worth nothing that the more information you can provide us in the request will allow us to deliver a solution which best fits your needs.  Some information that would be helpful would include:
+* Use Case - What are you looking to do with the information?
+* Data Access - Is your application public or only available to subscribers?  Can users download the data?
+* Historical Data - Do you require historical information or only current prices?
+* Access Type - Do you want to see data for a zip code or for a collection of bids that you specify?
+
+Once we have an understanding of what you're looking to do our team will be able to get you started.
 
 
-## 02 Make your first query
+## Making Your First Query
 
-As an example, let's retrieve all grain bids from all elevators in your zip code area:
-* Open your favorite web browser
-* Enter your API key and zip code into the url template:  http://ondemand.websol.barchart.com/getGrainBids.json?apikey={YOUR_API_KEY}&getAllBids=1&zipCode={YOUR_ZIP_CODE} 
+As an example, let's retrieve all retail fuel prices from all travel centers in your zip code area:
+* Open your favorite web browserhttp://ondemand.websol.barchart.com/getFuelPrices.json?apikey={YOUR_API_KEY}&zipCode={YOUR_ZIP_CODE}
+* Enter your API key and zip code into the url template:
 * Copy and paste the url into the browser, and hit enter
 * Voila! The API will returned qualified grain bids to your browser, similar to below:
 ```
@@ -16,48 +24,45 @@ As an example, let's retrieve all grain bids from all elevators in your zip code
     "message": "Success."
     },
 "results": [
-    {"bids": [
-        {"id": "39550822",
-         "commodity": "CORN",
-         "symbol": "ZCZ20",
-         "delivery_start": "2020-10-01 00:00:00",
-         "delivery_end": "2020-10-31 23:59:59",
-         "basis": "-22.00",
-         "notes": null,
-         "active": true,
-         "commodity_display_name": "Corn (#2 Yellow)",
-         "currency": "USD",
-         "deliveryMonth": "Oct20",
-         "deliveryYear": "2020",
-         "basismonth": "Dec 2020",
-         "timestamp": 1602820323,
-         "as_of": "22:52",
-         "change": "-0.005",
-         "cashprice": "3.81",
-         "delivery_end_raw": "2020-10-31 23:59:59",
-         "basisSymbol": "ZCBV20-47011-6164.CM",
-         "cashPriceSymbol": "ZCPV20-47011-6164.CM",
-         ...
-        },...,],
-        "distance": "6 miles away",
-        "company": "Landus Cooperative",
-        "locationId": 47011,
-        "location": "Dawson",
-        "facility_type": "Country Elevator",
-        "address": "212 S 1st St",
-        "city": "Dawson",
+    {"prices": [
+        {"symbol": "HOPA-516-1.CM",
+         "seriesName": "Pilot Flying J Des Moines, IA Diesel Price",
+         "productId": 1,
+         "product": "Diesel",
+         "price": 3.099,
+         "date": "2021-03-01"
+        },
+        {"symbol": "RBPA-516-4.CM",
+         "seriesName": "Pilot Flying J Des Moines, IA Regular Gas Price",
+         "productId": 4,
+         "product": "Regular Gas",
+         "price": 2.759,
+         "date": "2021-03-01"
+        },...],
+        "distance": "27 miles away",
+        "locationId": 516,
+        "location": "Pilot Travel Center #373",
+        "company": "Pilot Flying J",
+        "address": "11957 Douglas Avenue",
+        "highway": "I-35/80 Ext 126",
+        "zipCode": "50322",
+        "city": "Des Moines",
+        "county": "Polk",
+        "fipsCode": 19153,
         "state": "IA",
-        "lng": -94.2217547,
-        "lat": 41.8422732,
-        "phone": "515-428-8334",
-        "url": "www.landuscooperative.com",
-        "zip": "50066",
-        "county": "Dallas County",
-        "basisTimestamp": "2020-10-15T18:04:22-05:00",
-        "basisTimestampRaw": 1602803062
+        "country": "USA",
+        "longitude": -93.7808,
+        "latitude": 41.63022,
+        "phone": "515-276-1509",
+        "showers": "17",
+        "truckSpaces": "350",
+        "weighScales": "CAT",
+        "currency": "USD",
+        "metric": "U.S. Customary Units",
+        "locationUpdateDate": "2019-02-12",
+        "lastUpdateTimestamp": "2021-04-07T00:00:00-05:00"
     }]
-```
 
-## 03 Explore more
+## Explore More
 
-Congrats! You've made your first query. Feel free to check detailed API documentation in our API Reference Section, where you can also explore more advanced methods of querying grain prices data in the API Examples Section.
+Congrats! You've made your first query. Feel free to check more detailed documentation in our API Reference Section.  Here you can explore more advanced methods of querying grain prices data.
