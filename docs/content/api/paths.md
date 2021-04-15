@@ -20,7 +20,7 @@
 | county | <code>String</code> | false | false | A valid string code which represents the concatenation of county name and state code seperated by a hyphen.<br> |
 | fipsCode | <code>Integer</code> | false | false | A concatenation of state FIPS code and county FIPS code without separator to define the county that fuel prices will be returned for. A list of possible values can be found at (here)[https://www.nass.usda.gov/Data_and_Statistics/County_Data_Files/Frequently_Asked_Questions/county_list.txt].<br> |
 | productName | <code>String</code> | false | false | A standard commodity name or a name list that separated by pipe sign to filter fuel prices. Note that the input need to be encoded in UTF-8. A list of valid commodity names can be retrieved by using this API with input: requestType = commodities.<br> |
-| totalLocations | <code>Integer</code> | false | false | The maximum amount of fuel selling locations that fuel prices will be returned for. If zip code is set, then API will provide cashbid for given amount closet locations in relation to the requested zip code. Maximum value is 100.<br> |
+| totalLocations | <code>Integer</code> | false | false | The maximum amount of fuel selling locations that fuel prices will be returned for. If zip code is set, then API will provide fuel prices for given amount closet locations in relation to the requested zip code. Maximum value is 100.<br> |
 | page | <code>Integer</code> | false | false | The page number.<br> |
 | fields | <code>String</code> | false | false | Additional as per-requested fields that the user can define. Requested fields should be separated by a comma. Valid per-requested fields are "companyId", "locationType", "mailingAddress", "fax", "defLanes", "dieselLanes", "bioBlend", "businessHours", "productId", "productShort", "productFull"<br> |
 
@@ -93,7 +93,7 @@
 
 ```json
 {
-  "message": "string"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -146,7 +146,7 @@
 
 ```json
 {
-  "message": "string"
+  "message": "Internal Server Error"
 }
 ```
 

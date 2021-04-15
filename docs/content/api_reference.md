@@ -2,11 +2,8 @@
 
 ## cmdty North America Retail Fuel Price API 1.0.0 {docsify-ignore}
     
-> Access best-in-class EOD and historical retail fuel prices for North America using Barchart&#x27;s REST-ful web service
+> Access retail diesel and gasoline data from all major North America travel centers
 
-## OpenAPI Definition {docsify-ignore}
-
-[Download](static/openapi.yaml)
 
 ## Contents {docsify-ignore}
 
