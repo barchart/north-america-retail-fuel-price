@@ -4,7 +4,7 @@
 
 Retail fuel price is the price customer to pay for fuel at retailer, i.e. Traveler Center. The getFuelPrices API returnes values with units of "USD per gallon" for US, and "CAD per Liter" for Canada.
 
-#### What is the data source of grain bid data?
+#### What is the data source of fuel prices?
 
 Fuel prices come from web-scrapping of all major traveler centers' sites.
 

@@ -99,7 +99,7 @@
     
 | Name | Type | Required | Nullable | Description |
 | ---- | ---- | -------- | -------- | ----------- |
-| results | [<code>Array&lt;FuelPricesByLocation&gt;</code>](#schemasFuelPricesByLocation) |  | false | A list of groups of grain bids that are grouped by locations. |
+| results | [<code>Array&lt;FuelPricesByLocation&gt;</code>](#schemasFuelPricesByLocation) |  | false | A list of groups of fuel prices that are grouped by locations. |
 
 **Example**:
 
@@ -155,7 +155,7 @@
 | Name | Type | Required | Nullable | Description |
 | ---- | ---- | -------- | -------- | ----------- |
 | prices | [<code>Array&lt;FuelPrice&gt;</code>](#schemasFuelPrice) |  | false | A list of prices from a travel center. Each price contains the meta and price data applicable to that location. |
-| distance | <code>String</code> | false | true | Distance of the grain buying location in miles from the input zip code or lat/lng. |
+| distance | <code>String</code> | false | true | Distance of the facility in miles from the input zip code or lat/lng. |
 | company | <code>String</code> | false | false | Name of the applicable travel center company. |
 | locationId | <code>Integer</code> | false | false | A internal unique identifier of travel center. |
 | location | <code>String</code> | false | false | Name of travel center that price originated from. |
@@ -255,25 +255,25 @@
     
 | Name | Type | Required | Nullable | Description |
 | ---- | ---- | -------- | -------- | ----------- |
-| symbol | <code>String</code> | false | false |  |
-| name | <code>String</code> | false | false |  |
-| dayCode | <code>String</code> | false | false |  |
-| serverTimestamp | <code>String</code> | false | true |  |
-| mode | <code>String</code> | false | true |  |
-| lastPrice | <code>Number</code> | false | false |  |
-| tradeTimestamp | <code>String</code> | false | false |  |
-| netChange | <code>Number</code> | false | false |  |
-| percentChange | <code>Number</code> | false | true |  |
-| unitCode | <code>String</code> | false | false |  |
-| open | <code>Number</code> | false | false |  |
-| high | <code>Number</code> | false | false |  |
-| low | <code>Number</code> | false | true |  |
-| close | <code>Number</code> | false | true |  |
-| numTrades | <code>Number</code>| false | false |  |
-| dollarVolume | <code>Number</code>| false | false |  |
-| flag | <code>String</code> | false | true |  |
-| volume | <code>Number</code> | false | false |  |
-| previousVolume | <code>Number</code>| false | false |  |
+| symbol | <code>String</code> | true | false | A symbol or code that identifies a financial instrument. |
+| name | <code>String</code> | true | false | The name of instrument. |
+| dayCode | <code>String</code> | true | false | The day code for the session. Day codes are "1-9" for days 1 through 9, "0" (zero) for the 10th of the month, and "A - U" for days 11 through 31. |
+| serverTimestamp | <code>String</code> | false | true | The time the message was generated on the server. |
+| mode | <code>String</code> | true | true | An indicator representing if the quote is real-time ("R"), delayed ("I") or end-of-day ("D") if available. |
+| lastPrice | <code>Number</code> | true | false | The last price the instrument traded. |
+| tradeTimestamp | <code>String</code> | true | false | The exchange timestamp for the last traded price. |
+| netChange | <code>Number</code> | true | false | The difference between the last traded price and the previous close. |
+| percentChange | <code>Number</code> | true | true | The percent difference between the last traded price and the previous close. |
+| unitCode | <code>String</code> | true | false | The corresponding unit code. |
+| open | <code>Number</code> | true | false | The opening (first) price for the session. |
+| high | <code>Number</code> | true | false | The highest traded price for the session. |
+| low | <code>Number</code> | true | false | The lowest traded price for the session. |
+| close | <code>Number</code> | true | true | The last traded price for the session. |
+| numTrades | <code>Number</code>| true | false | The number of individual transactions over the course of a trading session. |
+| dollarVolume | <code>Number</code>| true | true | The current Dollar Volume. |
+| flag | <code>String</code> | true | false | If present, can be one of the following: "c" meaning that the market is closed for this instrument. "p" meaning that the market is in a pre-open state. This occurs when there are bids and offers being placed, but no trade has occurred yet. This is normally seen shortly before the official opening time for busy markets, but can also be seen throughout the day for lightly traded markets. "s" meaning that the instrument has settled, and that this is the final, settlement price. |
+| volume | <code>Number</code> | true | false | The quantity of shares or contracts traded. |
+| previousVolume | <code>Number</code>| true | false |The quantity of shares or contracts traded from the previous day. |
 
 **Example**:
 
@@ -312,15 +312,15 @@
 
 | Name | Type | Required | Nullable | Description |
 | ---- | ---- | -------- | -------- | ----------- |
-| symbol| <code>String</code> | true | false |  |
-| timestamp | <code>String</code> | true | false |  |
-| tradingDay | <code>String</code> | true | false |  |
-| open | <code>String</code> | true | true |  |
-| high | <code>String</code> | true | true |  |
-| low | <code>String</code> | true | false |  |
-| close | <code>String</code> | true | false |  |
-| volume | <code>String</code> | true | false |  |
-| openInterest | <code>String</code> | true | true |  |
+| symbol| <code>String</code> | true | false | A symbol or code that identifies a financial instrument. |
+| timestamp | <code>String</code> | true | false | The exchange time of the price. Format: HH:MM:SS.FFF. |
+| tradingDay | <code>String</code> | true | false |  The date of the trade. Format: YYYY-MM-DD.|
+| open | <code>String</code> | true | true | The opening (first) price for the period. |
+| high | <code>String</code> | true | true | The highest traded price for the period. |
+| low | <code>String</code> | true | false | The lowest traded price for the period. |
+| close | <code>String</code> | true | false | The last traded price for the period. |
+| volume | <code>String</code> | true | false | The quantity of shares or contracts traded per the period. |
+| openInterest | <code>String</code> | true | true | The total number of options and/or futures contracts that have not been offset. |
 
 **Example**:
 
@@ -344,18 +344,4 @@
 
 * * *
 
-## Security 
-
-### JWT :id=securityjwt
-
->The JWT authorization
-
-**Type**: http bearer
-    
-#### Headers
-| Name | Format | Example |
-| ---- | ------ | ------- |
-| Authorization | JWT | Authorization: Bearer <code>&lt;Token&gt;</code> |
-
-* * *
 

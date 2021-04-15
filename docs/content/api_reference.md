@@ -36,9 +36,6 @@
 * [getQuoteResponse](/content/api/components?id=schemasgetQuoteResponse)
 * [getHistoryResponse](/content/api/components?id=schemasgetHistoryResponse)
 
-### Security 
-
-* [JWT](/content/api/components?id=securityJWT)
 
 ## Paths {docsify-ignore}
 
